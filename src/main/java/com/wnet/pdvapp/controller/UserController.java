@@ -4,6 +4,7 @@ import com.wnet.pdvapp.dto.UserDTO;
 import com.wnet.pdvapp.entity.User;
 import com.wnet.pdvapp.entity.exceptions.EntidadeNaoEncontradaException;
 import com.wnet.pdvapp.entity.exceptions.UserNaoEncontradoException;
+import com.wnet.pdvapp.repository.UserRepository;
 import com.wnet.pdvapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService service;
+    @Autowired
+    private UserRepository repository;
 
     @GetMapping
     public ResponseEntity getAll(){
@@ -22,7 +25,6 @@ public class UserController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> adicionar(@RequestBody UserDTO dto) {
         try{
             return new ResponseEntity<UserDTO>(service.salvar(dto), HttpStatus.CREATED);
@@ -32,7 +34,7 @@ public class UserController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> atualizar(@PathVariable Long id, @RequestBody UserDTO dto){
-        User user = service.buscarOuFalhar(id);
+        User user = repository.buscarOuFalhar(id);
         return ResponseEntity.ok((service.update(id, dto)));
     }
 

@@ -3,17 +3,12 @@ package com.wnet.pdvapp.services;
 import com.wnet.pdvapp.assembler.UserAssembler;
 import com.wnet.pdvapp.dto.UserDTO;
 import com.wnet.pdvapp.entity.User;
-import com.wnet.pdvapp.entity.exceptions.EntidadeEmUsoException;
-import com.wnet.pdvapp.entity.exceptions.EntidadeNaoEncontradaException;
 import com.wnet.pdvapp.entity.exceptions.UserNaoEncontradoException;
 import com.wnet.pdvapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.temporal.TemporalAdjuster;
 import java.util.List;
 
 @Service
@@ -57,10 +52,6 @@ public class UserService {
     }
 
     @Transactional
-    public User buscarOuFalhar(Long userId) {
-        return repository.findById(userId).orElseThrow(() -> new UserNaoEncontradoException(userId));
-    }
-
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new UserNaoEncontradoException(id);
