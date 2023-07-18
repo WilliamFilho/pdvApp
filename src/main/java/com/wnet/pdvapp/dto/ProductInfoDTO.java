@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProductInfoDTO {
-    private long id;
+    //private long id;
     private String description;
     private int quantity;
 }
